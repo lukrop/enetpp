@@ -7,7 +7,7 @@ namespace enetpp {
 
 	inline void set_current_thread_name(const char* name) {
 
-#ifdef _WIN32
+#if defined(_WIN32) && defined(_MSC_VER)
 
 		//https://msdn.microsoft.com/en-us/library/xcb2z8hs.aspx
 		const DWORD MS_VC_EXCEPTION = 0x406D1388;
