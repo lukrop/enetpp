@@ -108,7 +108,7 @@ namespace enetpp {
 				auto packet = enet_packet_create(data, data_size, flags);
 				for (auto c : _connected_clients) {
 					if (predicate(*c)) {
-						_packet_queue.emplace(channel_id, packet, c->get_id());
+						_packet_queue.emplace(channel_id, packet, c->get_uid());
 					}
 				}
 			}
@@ -141,7 +141,7 @@ namespace enetpp {
 							auto iter = std::find(_connected_clients.begin(), _connected_clients.end(), e._client);
 							assert(iter != _connected_clients.end());
 							_connected_clients.erase(iter);
-							unsigned int client_id = e._client->get_id();
+							unsigned int client_id = e._client->get_uid();
 							delete e._client;
 							on_client_disconnected(client_id);
 							break;
@@ -280,7 +280,7 @@ namespace enetpp {
 			assert(e.peer->data == nullptr);
 			e.peer->data = client;
 
-			_thread_peer_map[client->get_id()] = e.peer;
+			_thread_peer_map[client->get_uid()] = e.peer;
 
 			{
 				std::lock_guard<std::mutex> lock(_event_queue_mutex);
@@ -291,7 +291,7 @@ namespace enetpp {
 		void handle_disconnect_event_in_thread(const ENetEvent& e) {
 			auto client = reinterpret_cast<ClientT*>(e.peer->data);
 			if (client != nullptr) {
-				auto iter = _thread_peer_map.find(client->get_id());
+				auto iter = _thread_peer_map.find(client->get_uid());
 				assert(iter != _thread_peer_map.end());
 				assert(iter->second == e.peer);
 				e.peer->data = nullptr;
