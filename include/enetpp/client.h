@@ -220,7 +220,7 @@ namespace enetpp {
 
 				//flush / capture enet events
 				//http://lists.cubik.org/pipermail/enet-discuss/2013-September/002240.html
-				enet_host_service(host, 0, 0);
+				enet_host_service(host, nullptr, 0);
 				{
 					ENetEvent e;
 					while (enet_host_check_events(host, &e) > 0) {
