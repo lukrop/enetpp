@@ -5,7 +5,7 @@
 #include <thread>
 #include <queue>
 #include <mutex>
-#include <assert.h>
+#include <cassert>
 #include "global_state.h"
 #include "client_connect_params.h"
 #include "client_queued_packet.h"

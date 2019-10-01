@@ -7,7 +7,7 @@
 #include <unordered_map>
 #include <queue>
 #include <mutex>
-#include <assert.h>
+#include <cassert>
 #include "server_listen_params.h"
 #include "server_queued_packet.h"
 #include "server_event.h"
@@ -43,7 +43,7 @@ namespace enetpp {
 		std::mutex _event_queue_mutex;
 
 	public:
-		server() 
+		server()
 			: _should_exit_thread(false) {
 		}
 
@@ -235,7 +235,7 @@ namespace enetpp {
 
 		void capture_events_in_thread(const listen_params_type& params, ENetHost* host) {
 			//http://lists.cubik.org/pipermail/enet-discuss/2013-September/002240.html
-			enet_host_service(host, 0, 0);
+			enet_host_service(host, nullptr, 0);
 
 			ENetEvent e;
 			while (enet_host_check_events(host, &e) > 0) {
@@ -271,7 +271,7 @@ namespace enetpp {
 			enet_address_get_host_ip(&e.peer->address, peer_ip, 256);
 
 			//!IMPORTANT! PeerData and it's UID must be created immediately in this worker thread. Otherwise
-			//there is a chance the first few packets are received on the worker thread when the peer is not 
+			//there is a chance the first few packets are received on the worker thread when the peer is not
 			//initialized with data causing them to be discarded.
 
 			auto client = new ClientT();
